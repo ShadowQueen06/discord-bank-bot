@@ -1,7 +1,7 @@
 const { Client, GatewayIntentBits } = require("discord.js");
 const fs = require("fs");
 
-const TOKEN = "ضع_توكن_البوت";
+const TOKEN = "توكن_البوت_الحقيقي";
 const prefix = "!";
 
 const client = new Client({
