@@ -62,45 +62,70 @@ function addXP(user, amount) {
   }
 }
 
+const shop = {
+  لابتوب: { name: "لابتوب", price: 5000 },
+  جوال: { name: "جوال", price: 3000 },
+  ساعة: { name: "ساعة", price: 1500 },
+  سيارة: { name: "سيارة", price: 25000 },
+  دراجة: { name: "دراجة", price: 8000 },
+  بيت: { name: "بيت", price: 100000 },
+  قصر: { name: "قصر", price: 500000 },
+  مزرعة: { name: "مزرعة", price: 75000 },
+  متجر: { name: "متجر", price: 150000 },
+  شركة: { name: "شركة", price: 1000000 },
+  ذهب: { name: "ذهب", price: 20000 },
+  ألماس: { name: "ألماس", price: 60000 },
+  طائرة: { name: "طائرة", price: 2000000 },
+  يخت: { name: "يخت", price: 1500000 }
+};
+
 async function sendCard(message, title, lines, color = "#d6a21c") {
-  const canvas = createCanvas(900, 460);
+  const canvas = createCanvas(1400, 700);
   const ctx = canvas.getContext("2d");
 
   ctx.fillStyle = "#160f04";
-  ctx.fillRect(0, 0, 900, 460);
+  ctx.fillRect(0, 0, 1400, 700);
 
   ctx.fillStyle = "#3a2708";
-  ctx.fillRect(35, 35, 830, 390);
+  ctx.fillRect(50, 50, 1300, 570);
 
   ctx.strokeStyle = color;
-  ctx.lineWidth = 4;
-  ctx.strokeRect(35, 35, 830, 390);
+  ctx.lineWidth = 5;
+  ctx.strokeRect(50, 50, 1300, 570);
 
   ctx.direction = "rtl";
   ctx.textAlign = "right";
 
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 46px Arial";
-  ctx.fillText(title, 810, 95);
+  ctx.font = "bold 62px Arial";
+  ctx.fillText(title, 1260, 125);
 
   ctx.strokeStyle = color;
   ctx.beginPath();
-  ctx.moveTo(90, 130);
-  ctx.lineTo(810, 130);
+  ctx.moveTo(110, 170);
+  ctx.lineTo(1260, 170);
   ctx.stroke();
 
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 30px Arial";
+  let y = 240;
 
-  let y = 190;
-  for (const line of lines) {
-    ctx.fillText(line, 810, y);
-    y += 55;
+  for (const line of lines.slice(0, 7)) {
+    ctx.fillStyle = "#504735";
+    ctx.fillRect(120, y - 42, 1140, 62);
+
+    ctx.strokeStyle = "#7a5c16";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(120, y - 42, 1140, 62);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 34px Arial";
+    ctx.fillText(line, 1210, y);
+
+    y += 75;
   }
 
   const avatarURL = message.author.displayAvatarURL({
     extension: "png",
-    size: 128
+    size: 256
   });
 
   try {
@@ -108,29 +133,25 @@ async function sendCard(message, title, lines, color = "#d6a21c") {
 
     ctx.save();
     ctx.beginPath();
-    ctx.arc(150, 230, 75, 0, Math.PI * 2);
+    ctx.arc(190, 115, 55, 0, Math.PI * 2);
     ctx.closePath();
     ctx.clip();
-    ctx.drawImage(avatar, 75, 155, 150, 150);
+    ctx.drawImage(avatar, 135, 60, 110, 110);
     ctx.restore();
 
     ctx.beginPath();
-    ctx.arc(150, 230, 78, 0, Math.PI * 2);
+    ctx.arc(190, 115, 58, 0, Math.PI * 2);
     ctx.strokeStyle = color;
-    ctx.lineWidth = 7;
+    ctx.lineWidth = 5;
     ctx.stroke();
   } catch {}
 
   ctx.textAlign = "center";
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 24px Arial";
-  ctx.fillText(message.author.username, 150, 340);
-
   ctx.fillStyle = "#b8b8b8";
-  ctx.font = "22px Arial";
-  ctx.fillText("Our House Bank", 450, 445);
+  ctx.font = "28px Arial";
+  ctx.fillText("Our House Bank", 700, 665);
 
-  const attachment = new AttachmentBuilder(canvas.toBuffer(), {
+  const attachment = new AttachmentBuilder(canvas.toBuffer("image/png"), {
     name: "bank-card.png"
   });
 
@@ -138,7 +159,7 @@ async function sendCard(message, title, lines, color = "#d6a21c") {
 }
 
 async function sendBalance(message, user) {
-  const canvas = createCanvas(900, 500);
+  const canvas = createCanvas(1400, 800);
   const ctx = canvas.getContext("2d");
 
   const total = user.cash + user.bank;
@@ -146,43 +167,43 @@ async function sendBalance(message, user) {
   const percent = Math.min(user.xp / need, 1);
 
   ctx.fillStyle = "#160f04";
-  ctx.fillRect(0, 0, 900, 500);
+  ctx.fillRect(0, 0, 1400, 800);
 
   ctx.fillStyle = "#3a2708";
-  ctx.fillRect(40, 40, 820, 420);
+  ctx.fillRect(55, 55, 1290, 680);
 
   ctx.strokeStyle = "#d6a21c";
-  ctx.lineWidth = 4;
-  ctx.strokeRect(40, 40, 820, 420);
+  ctx.lineWidth = 5;
+  ctx.strokeRect(55, 55, 1290, 680);
 
   ctx.direction = "rtl";
   ctx.textAlign = "right";
 
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 44px Arial";
-  ctx.fillText("رصيدك في البنك", 810, 90);
+  ctx.font = "bold 72px Arial";
+  ctx.fillText("رصيدك في البنك", 1270, 135);
 
   ctx.fillStyle = "#ffcc33";
-  ctx.font = "bold 28px Arial";
-  ctx.fillText(`المستوى ${user.level}`, 810, 130);
+  ctx.font = "bold 38px Arial";
+  ctx.fillText(`المستوى ${user.level}`, 1270, 190);
 
   ctx.fillStyle = "#dddddd";
-  ctx.font = "28px Arial";
-  ctx.fillText("الرصيد الحالي", 810, 190);
+  ctx.font = "40px Arial";
+  ctx.fillText("الرصيد الحالي", 1270, 285);
 
   ctx.fillStyle = "#ffcc33";
-  ctx.font = "bold 60px Arial";
-  ctx.fillText(`$${money(total)}`, 810, 255);
+  ctx.font = "bold 92px Arial";
+  ctx.fillText(`$${money(total)}`, 1270, 390);
 
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 29px Arial";
-  ctx.fillText(`الكاش: $${money(user.cash)}`, 810, 325);
-  ctx.fillText(`البنك: $${money(user.bank)}`, 810, 370);
-  ctx.fillText(`الوظيفة: ${user.job}`, 810, 415);
+  ctx.font = "bold 42px Arial";
+  ctx.fillText(`الكاش: $${money(user.cash)}`, 1270, 490);
+  ctx.fillText(`البنك: $${money(user.bank)}`, 1270, 555);
+  ctx.fillText(`الوظيفة: ${user.job}`, 1270, 620);
 
   const avatarURL = message.author.displayAvatarURL({
     extension: "png",
-    size: 128
+    size: 256
   });
 
   try {
@@ -190,52 +211,160 @@ async function sendBalance(message, user) {
 
     ctx.save();
     ctx.beginPath();
-    ctx.arc(160, 240, 80, 0, Math.PI * 2);
+    ctx.arc(270, 330, 125, 0, Math.PI * 2);
     ctx.closePath();
     ctx.clip();
-    ctx.drawImage(avatar, 80, 160, 160, 160);
+    ctx.drawImage(avatar, 145, 205, 250, 250);
     ctx.restore();
 
     ctx.beginPath();
-    ctx.arc(160, 240, 84, 0, Math.PI * 2);
+    ctx.arc(270, 330, 130, 0, Math.PI * 2);
     ctx.strokeStyle = "#ffcc33";
-    ctx.lineWidth = 8;
+    ctx.lineWidth = 10;
     ctx.stroke();
   } catch {}
 
   ctx.textAlign = "center";
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 25px Arial";
-  ctx.fillText(message.author.username, 160, 360);
+  ctx.font = "bold 36px Arial";
+  ctx.fillText(message.author.username, 270, 510);
 
   ctx.fillStyle = "#111111";
-  ctx.fillRect(270, 430, 560, 18);
+  ctx.fillRect(430, 690, 780, 24);
 
   ctx.fillStyle = "#ffb300";
-  ctx.fillRect(270, 430, 560 * percent, 18);
+  ctx.fillRect(430, 690, 780 * percent, 24);
 
   ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 18px Arial";
-  ctx.fillText(`${user.xp} / ${need} XP`, 550, 415);
+  ctx.font = "bold 24px Arial";
+  ctx.fillText(`${user.xp} / ${need} XP`, 820, 670);
 
   ctx.fillStyle = "#b8b8b8";
-  ctx.font = "21px Arial";
-  ctx.fillText("Our House Bank", 450, 485);
+  ctx.font = "26px Arial";
+  ctx.fillText("Our House Bank", 700, 770);
 
-  const attachment = new AttachmentBuilder(canvas.toBuffer(), {
+  const attachment = new AttachmentBuilder(canvas.toBuffer("image/png"), {
     name: "balance.png"
   });
 
   return message.reply({ files: [attachment] });
 }
 
-const shop = {
-  لابتوب: { name: "لابتوب", price: 5000 },
-  سيارة: { name: "سيارة", price: 25000 },
-  بيت: { name: "بيت", price: 100000 },
-  جوال: { name: "جوال", price: 3000 },
-  ساعة: { name: "ساعة", price: 1500 }
-};
+async function sendCommands(message) {
+  const canvas = createCanvas(1400, 950);
+  const ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = "#160f04";
+  ctx.fillRect(0, 0, 1400, 950);
+
+  ctx.fillStyle = "#3a2708";
+  ctx.fillRect(40, 40, 1320, 760);
+
+  ctx.strokeStyle = "#d6a21c";
+  ctx.lineWidth = 5;
+  ctx.strokeRect(40, 40, 1320, 760);
+
+  ctx.direction = "rtl";
+  ctx.textAlign = "right";
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "bold 64px Arial";
+  ctx.fillText("💰 البنك والمال", 1260, 120);
+
+  ctx.fillStyle = "#ffcc33";
+  ctx.font = "bold 34px Arial";
+  ctx.fillText("أوامر البنك والاقتصاد", 1260, 175);
+
+  ctx.strokeStyle = "#d6a21c";
+  ctx.beginPath();
+  ctx.moveTo(100, 215);
+  ctx.lineTo(1260, 215);
+  ctx.stroke();
+
+  const commands = [
+    ["رصيد", "عرض رصيدك وصورة حسابك"],
+    ["يومي", "استلام المكافأة اليومية"],
+    ["راتب", "استلام راتبك كل ساعة"],
+    ["عمل", "الحصول على وظيفة"],
+    ["ايداع [مبلغ]", "إيداع المال في البنك"],
+    ["سحب [مبلغ]", "سحب المال من البنك"],
+    ["تحويل @شخص [مبلغ]", "تحويل المال لشخص آخر"],
+    ["سرقة @شخص", "محاولة سرقة شخص"],
+    ["متجر", "عرض المتجر"],
+    ["شراء [اسم]", "شراء غرض من المتجر"],
+    ["حقيبة", "عرض أغراضك"],
+    ["توب", "أغنى الأشخاص"],
+    ["معلومات @شخص", "عرض معلومات شخص"]
+  ];
+
+  commands.forEach((item, index) => {
+    const col = index % 2;
+    const row = Math.floor(index / 2);
+
+    const boxX = col === 0 ? 90 : 720;
+    const boxY = 250 + row * 78;
+
+    ctx.fillStyle = "#504735";
+    ctx.fillRect(boxX, boxY, 590, 58);
+
+    ctx.strokeStyle = "#7a5c16";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(boxX, boxY, 590, 58);
+
+    ctx.textAlign = "right";
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 27px Arial";
+    ctx.fillText(item[0], boxX + 560, boxY + 25);
+
+    ctx.fillStyle = "#c9c9c9";
+    ctx.font = "21px Arial";
+    ctx.fillText(item[1], boxX + 560, boxY + 50);
+  });
+
+  const buttons = [
+    "💰 البنك والمال",
+    "💼 الوظائف والعمل",
+    "📈 الأسهم والسوق",
+    "🏙️ المدينة والبناء",
+    "🏢 الشركات",
+    "🎰 القمار والألعاب",
+    "☠️ الجريمة والسوق",
+    "⚔️ التحديات",
+    "💍 الزواج والعائلة",
+    "🛒 المتجر",
+    "🎯 المهام",
+    "🛡️ القانون"
+  ];
+
+  ctx.textAlign = "center";
+
+  buttons.forEach((btn, i) => {
+    const bx = 40 + (i % 4) * 330;
+    const by = 830 + Math.floor(i / 4) * 55;
+
+    ctx.fillStyle = i === 0 ? "#5865f2" : "#2b2522";
+    ctx.fillRect(bx, by, 300, 42);
+
+    ctx.strokeStyle = "#4a403b";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(bx, by, 300, 42);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 22px Arial";
+    ctx.fillText(btn, bx + 150, by + 29);
+  });
+
+  ctx.fillStyle = "#b8b8b8";
+  ctx.font = "24px Arial";
+  ctx.fillText("Our House Bank", 700, 790);
+
+  const attachment = new AttachmentBuilder(canvas.toBuffer("image/png"), {
+    name: "commands.png"
+  });
+
+  return message.reply({ files: [attachment] });
+}
 
 client.once("ready", () => {
   console.log(`Logged in as ${client.user.tag}`);
@@ -251,19 +380,9 @@ client.on("messageCreate", async message => {
   const data = loadDB();
   const user = getUser(data, message.author.id);
 
-  if (cmd === "اوامر") {
-    return sendCard(message, "أوامر البنك", [
-      "!رصيد",
-      "!يومي | !راتب | !عمل",
-      "!ايداع 1000 | !سحب 1000",
-      "!تحويل @شخص 500 | !سرقة @شخص",
-      "!متجر | !شراء لابتوب | !حقيبة | !توب"
-    ]);
-  }
+  if (cmd === "اوامر") return sendCommands(message);
 
-  if (cmd === "رصيد") {
-    return sendBalance(message, user);
-  }
+  if (cmd === "رصيد") return sendBalance(message, user);
 
   if (cmd === "يومي") {
     const now = Date.now();
@@ -277,7 +396,7 @@ client.on("messageCreate", async message => {
     addXP(user, 50);
     saveDB(data);
 
-    return sendCard(message, "اليومية", ["استلمت 1500", `رصيدك الآن: $${money(user.cash)}`]);
+    return sendCard(message, "اليومية", [`استلمت 1500`, `رصيدك الآن: $${money(user.cash)}`]);
   }
 
   if (cmd === "عمل") {
@@ -336,6 +455,7 @@ client.on("messageCreate", async message => {
     const amount = Number(args[1]);
 
     if (!target) return sendCard(message, "خطأ", ["منشن الشخص"]);
+    if (target.bot) return sendCard(message, "خطأ", ["لا يمكنك التحويل لبوت"]);
     if (!amount || amount <= 0) return sendCard(message, "خطأ", ["اكتب مبلغ صحيح"]);
     if (user.cash < amount) return sendCard(message, "خطأ", ["الكاش غير كاف"]);
 
@@ -348,13 +468,51 @@ client.on("messageCreate", async message => {
     return sendCard(message, "تحويل", [`تم تحويل ${amount}`, `إلى: ${target.username}`]);
   }
 
+  if (cmd === "سرقة") {
+    const target = message.mentions.users.first();
+    const now = Date.now();
+
+    if (!target) return sendCard(message, "خطأ", ["منشن الشخص"]);
+    if (target.id === message.author.id) return sendCard(message, "خطأ", ["لا يمكنك سرقة نفسك"]);
+    if (target.bot) return sendCard(message, "خطأ", ["لا يمكنك سرقة بوت"]);
+    if (now - user.lastRob < 7200000) return sendCard(message, "سرقة", ["يمكنك السرقة كل ساعتين"]);
+
+    const victim = getUser(data, target.id);
+
+    if (victim.cash < 500) {
+      return sendCard(message, "سرقة", ["هذا الشخص لا يملك كاش كافي"]);
+    }
+
+    user.lastRob = now;
+
+    const success = Math.random() < 0.45;
+
+    if (!success) {
+      const fine = 300;
+      user.cash = Math.max(0, user.cash - fine);
+      saveDB(data);
+
+      return sendCard(message, "سرقة", [`فشلت السرقة`, `الغرامة: ${fine}`]);
+    }
+
+    const amount = Math.floor(Math.random() * 700) + 100;
+
+    victim.cash -= amount;
+    user.cash += amount;
+    addXP(user, 60);
+    saveDB(data);
+
+    return sendCard(message, "سرقة", [`نجحت السرقة`, `أخذت: ${amount}`]);
+  }
+
   if (cmd === "متجر") {
     return sendCard(message, "المتجر", [
-      "لابتوب: 5000",
-      "سيارة: 25000",
-      "بيت: 100000",
-      "جوال: 3000",
-      "ساعة: 1500"
+      "لابتوب: 5K | جوال: 3K",
+      "ساعة: 1.5K | سيارة: 25K",
+      "بيت: 100K | قصر: 500K",
+      "متجر: 150K | شركة: 1M",
+      "ذهب: 20K | ألماس: 60K",
+      "طائرة: 2M | يخت: 1.5M"
     ]);
   }
 
@@ -370,20 +528,20 @@ client.on("messageCreate", async message => {
     addXP(user, 30);
     saveDB(data);
 
-    return sendCard(message, "شراء", [`اشتريت: ${item.name}`, `السعر: ${item.price}`]);
+    return sendCard(message, "شراء", [`اشتريت: ${item.name}`, `السعر: ${money(item.price)}`]);
   }
 
   if (cmd === "حقيبة") {
     if (!user.bag.length) return sendCard(message, "الحقيبة", ["حقيبتك فارغة"]);
 
-    return sendCard(message, "الحقيبة", user.bag.slice(0, 5));
+    return sendCard(message, "الحقيبة", user.bag.slice(0, 7));
   }
 
   if (cmd === "توب") {
     const top = Object.entries(data)
       .map(([id, u]) => ({ id, total: u.cash + u.bank }))
       .sort((a, b) => b.total - a.total)
-      .slice(0, 5);
+      .slice(0, 7);
 
     const lines = top.map((u, i) => `${i + 1} - ${money(u.total)} : <@${u.id}>`);
 
